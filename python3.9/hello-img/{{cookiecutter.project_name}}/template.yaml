@@ -8,13 +8,17 @@ Description: >
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 3
-    MemorySize: 128
+    Timeout: 30
+    MemorySize: 512
+    Environment:
+      Variables:
+        HOGE: HOGE
 
 Resources:
-  HelloWorldFunction:
+  MyFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
+      FunctionName: ek-lab-{{cookiecutter.project_name}}
       PackageType: Image
       {%- if cookiecutter.architectures.value != []%}
       Architectures:
@@ -22,27 +26,41 @@ Resources:
         - {{arch}}
       {%- endfor %}
       {%- endif %}
-      Events:
-        HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /hello
-            Method: get
+      # Policies:
+      #   - S3ReadPolicy:
+      #       BucketName: "ek-lab-"
+      #   - S3WritePolicy:
+      #       BucketName: "ek-lab-"
+      # Events:
+      #   MySchedule:
+      #     Type: Schedule
+      #     Properties:
+      #       Schedule: cron(0 0 ? * * *)
+      #       Input: |
+      #         {
+      #           "latitude": 35.20950830049645,
+      #           "longitude": 139.63335768689498,
+      #         }
+      #  # MyApi:
+      #  #   Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+      #  #   Properties:
+      #  #     Path: /hello
+      #  #     Method: get
     Metadata:
       Dockerfile: Dockerfile
-      DockerContext: ./hello_world
+      DockerContext: ./src
       DockerTag: {{cookiecutter.runtime}}-v1
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+  # MyApi:
+  #   Description: "API Gateway endpoint URL for Prod stage for My  function"
+  #   Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  MyFunction:
+    Description: "My  Lambda Function ARN"
+    Value: !GetAtt MyFunction.Arn
+  MyFunctionIamRole:
+    Description: "Implicit IAM Role created for My  function"
+    Value: !GetAtt MyFunctionRole.Arn
