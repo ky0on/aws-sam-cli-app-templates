@@ -59,8 +59,8 @@ Outputs:
   #   Description: "API Gateway endpoint URL for Prod stage for My  function"
   #   Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
   MyFunction:
-    Description: "My  Lambda Function ARN"
+    Description: "My Lambda Function ARN"
     Value: !GetAtt MyFunction.Arn
   MyFunctionIamRole:
-    Description: "Implicit IAM Role created for My  function"
+    Description: "Implicit IAM Role created for My function"
     Value: !GetAtt MyFunctionRole.Arn
