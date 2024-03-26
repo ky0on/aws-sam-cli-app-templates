@@ -1,8 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  {{cookiecutter.runtime}}
-
   Sample SAM Template for {{cookiecutter.project_name}}
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
@@ -49,7 +47,7 @@ Resources:
     Metadata:
       Dockerfile: Dockerfile
       DockerContext: ./src
-      DockerTag: {{cookiecutter.runtime}}-v1
+      DockerTag: v1
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
