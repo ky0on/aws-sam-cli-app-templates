@@ -1,4 +1,4 @@
-FROM public.ecr.aws/lambda/python:3.9
+FROM public.ecr.aws/lambda/python:3.11
 
 COPY . ./
 RUN {{cookiecutter.runtime}} -m pip install -r requirements.txt -t .
